@@ -88,7 +88,7 @@ class HttpRequestHandler(http.server.BaseHTTPRequestHandler):
 
         prompt_data = read_json_file(file_path)
         if prompt_data is None:
-            logging.warning(f"Warning: Prompt file '{file_path}' not found.")
+            logging.warning(f"GET request failed: Prompt file '{file_path}' not found.")
             self.send_response(404)
             self.end_headers()
             return
@@ -105,7 +105,7 @@ class HttpRequestHandler(http.server.BaseHTTPRequestHandler):
         post_data = self.rfile.read(content_length)
 
         if not post_data:  # Prevents empty request crash
-            logging.error("Received empty POST request.")
+            logging.error("POST request failed: Received empty request body.")
             self.send_response(400)
             self.end_headers()
             return
@@ -160,9 +160,9 @@ class HttpRequestHandler(http.server.BaseHTTPRequestHandler):
 
         write_json_file(file_path, prompt_data)
 
-        # Save last used prompt
-        with open(LAST_PROMPT_FILE, "w") as f:
-            f.write(prompt_name)
+        # Save last used prompt only if it's a new prompt
+        if data.get("name"):
+            write_json_file(LAST_PROMPT_FILE, prompt_name)
 
         self._set_headers()
         self.wfile.write(json.dumps({"message": f"Saved as version {new_version}."}).encode("utf-8"))
@@ -182,7 +182,7 @@ class HttpRequestHandler(http.server.BaseHTTPRequestHandler):
         else:
             system_prompt = "You are an AI assistant."
 
-        logging.info(f"Using system prompt: {system_prompt}")
+        logging.info(f"Processing AI request with system prompt: {system_prompt[:50]}...")  # Trim long prompts for logging
         logging.info(f"Using model: {model_name}")
 
         # Use AI model
