@@ -1,0 +1,9 @@
+{
+    "name": "Build_Node_Graph",
+    "versions": [
+        {
+            "version": 1,
+            "prompt": "Can you take the following sentence, extract the enitity, predicate and objects from it and...  create a json object output that can be used in a node graph in apache echarts?  Brian rode a bike in the storm.\nTo analyze the sentence \"Brian rode a bike in the storm\" and convert it into JSON format suitable for a node graph\nin Apache ECharts, we need to identify the entities (nodes) and predicates (edges). Here's how you can break it\ndown:\n \n1. **Entities**:\n   - Subject: Brian\n   - Object: Bike\n   - Location/Context: Storm\n \n2. **Predicate**:\n   - Action: Rode\n \nGiven these components, we can create a JSON object to represent the nodes and edges in an Apache ECharts graph.\n \n```json\n{\n  \"nodes\": [\n    {\n      \"id\": \"Brian\",\n      \"name\": \"Brian\"\n    },\n    {\n      \"id\": \"Bike\",\n      \"name\": \"Bike\"\n    },\n    {\n      \"id\": \"Storm\",\n      \"name\": \"Storm\"\n    }\n  ],\n  \"links\": [\n    {\n      \"source\": \"Brian\",\n      \"target\": \"Bike\",\n      \"relation\": \"Rode\"\n    },\n    {\n      \"source\": \"Bike\",\n      \"target\": \"Storm\",\n      \"relation\": \"In\"\n    }\n  ]\n}\n```\n \n### Explanation:\n- **Nodes**: Each node represents an entity in the sentence with a unique `id` and `name`.\n- **Links (Edges)**: Each link describes the relationship between nodes. The `source` is where the action originates, the `target` is where it ends, and `relation` describes the interaction.\n \nThis structure can be used to visualize relationships using Apache ECharts by mapping these entities and predicates onto a graph structure."
+        }
+    ]
+}
