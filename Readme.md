@@ -23,7 +23,7 @@ It provides a **web-based interface** where users can:
 ### 1️⃣ Clone the Repository
 ```bash
 git clone https://github.com/your-repo/LLMTestProject.git
-cd LLMTestProject
+cd LLMTestProject```
 
 📌 Installation
 1️⃣ Clone the Repository
