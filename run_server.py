@@ -24,7 +24,7 @@ atexit.register(cleanup)
 
 def is_port_in_use(port):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        return s.connect_ex(("localhost", port)) == 0
+        return s.connect_ex(("0.0.0.0", port)) == 0
 
 if is_port_in_use(PHP_PORT):
     logging.error(f"Port {PHP_PORT} is already in use. Exiting...")
@@ -37,14 +37,14 @@ if is_port_in_use(PYTHON_PORT):
 try:
     # Start PHP Server
     logging.info(f"Starting PHP server on http://localhost:{PHP_PORT}")
-    php_process = subprocess.Popen(["php", "-S", f"localhost:{PHP_PORT}", "-t", "public"])
+    php_process = subprocess.Popen(["php", "-S", f"0.0.0.0:{PHP_PORT}", "-t", "public"])
 except Exception as e:
     logging.error(f"Error starting PHP server: {e}")
     exit(1)  # Exit if PHP server fails to start
 
 try:
     # Start Python API Server
-    with socketserver.TCPServer(("localhost", PYTHON_PORT), HttpRequestHandler) as httpd:
+    with socketserver.TCPServer(("0.0.0.0", PYTHON_PORT), HttpRequestHandler) as httpd:
         logging.info(f"Python API server running on http://localhost:{PYTHON_PORT}")
         httpd.serve_forever()
 except Exception as e:

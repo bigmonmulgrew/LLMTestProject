@@ -18,7 +18,7 @@ function toggleSystemPrompt() {
 }
 
 async function fetchModels() {
-    let response = await fetch("http://localhost:18086/get_models");
+    let response = await fetch("http://62.31.169.252:18086/get_models");
     let data = await response.json();
     
     let modelSelect = document.getElementById("model-select");
@@ -33,7 +33,7 @@ async function fetchModels() {
 }
 
 async function fetchPrompts() {
-    let response = await fetch("http://localhost:18086/get_prompts");
+    let response = await fetch("http://62.31.169.252:18086/get_prompts");
     let data = await response.json();
     
     let promptSelect = document.getElementById("prompt-select");
@@ -48,7 +48,7 @@ async function fetchPrompts() {
 }
 
 async function fetchLastPrompt() {
-    let response = await fetch("http://localhost:18086/get_last_prompt");
+    let response = await fetch("http://62.31.169.252:18086/get_last_prompt");
     let data = await response.json();
     let lastPrompt = data.last_prompt;
 
@@ -66,7 +66,7 @@ async function loadPrompt() {
 
     let encodedPrompt = encodeURIComponent(selectedPrompt);
 
-    let response = await fetch(`http://localhost:18086/get_prompt?name=${encodedPrompt}`);
+    let response = await fetch(`http://62.31.169.252:18086/get_prompt?name=${encodedPrompt}`);
     
     if (response.ok) {
         let data = await response.json();
@@ -111,7 +111,7 @@ async function savePrompt() {
         return;
     }
 
-    let response = await fetch("http://localhost:18086/save_prompt", {
+    let response = await fetch("http://62.31.169.252:18086/save_prompt", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: promptName, prompt: promptText })
@@ -131,7 +131,7 @@ async function loadPromptVersion() {
 
     let encodedPrompt = encodeURIComponent(promptName);
     
-    let response = await fetch(`http://localhost:18086/get_prompt?name=${encodedPrompt}&version=${version}`);
+    let response = await fetch(`http://62.31.169.252:18086/get_prompt?name=${encodedPrompt}&version=${version}`);
     let data = await response.json();
 
     document.getElementById("system-prompt").value = data.prompt;
@@ -163,7 +163,7 @@ async function sendMessage() {
         });
 
         // Send message history and model to the Python server
-        let response = await fetch("http://localhost:18086/send_message", {
+        let response = await fetch("http://62.31.169.252:18086/send_message", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ history: history, model: selectedModel })
